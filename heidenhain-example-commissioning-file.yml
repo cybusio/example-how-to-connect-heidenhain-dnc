@@ -1,0 +1,106 @@
+description: >
+
+  Heidenhain DNC Example Commissioning File
+  Cybus Learn - How to connect a machine via Heidenhain DNC interface
+  https://learn.cybus.io/lessons/how-to-connect-heidenhain-dnc/
+
+metadata:
+
+  name: Heidenhain DNC Example
+  version: 1.0.0
+  icon: https://www.cybus.io/wp-content/uploads/2019/03/Cybus-logo-Claim-lang.svg
+  provider: Cybus GmbH
+  homepage: https://www.cybus.io
+  
+parameters:
+  agentId:
+    type: string
+    description: Agent Identification (Cybus Heidenhain Agent)
+    default: <yourAgentId>
+  machineIP:
+    type: string
+    description: IP Address of the machine
+    default: <yourMachineAddress>
+  cncType:
+    type: string
+    default: tnc640
+    description: >-
+      Type of the machine control (DNC Type). Allowed values: tnc640, itnc530,
+      itnc426.
+    allowedValues:
+      - tnc640
+      - itnc530
+      - tnc426
+  
+resources:
+  heidenhainConnection:
+    type: 'Cybus::Connection'
+    properties:
+      protocol: Heidenhain
+      connection:
+        agent: !ref agentId
+        ipAddress: !ref machineIP
+        cncType: !ref cncType
+        plcPassword: <password>
+        usrPassword: <password>
+        tablePassword: <password>
+        sysPassword: <password>
+        
+  getStatePolling:
+    type: 'Cybus::Endpoint'
+    properties:
+      protocol: Heidenhain
+      connection: !ref heidenhainConnection
+      topic: getState
+      subscribe:
+        method: getState
+        type: poll
+        pollInterval: 5000
+        params: []
+
+  getState:
+    type: 'Cybus::Endpoint'
+    properties:
+      protocol: Heidenhain
+      connection: !ref heidenhainConnection
+      topic: getState
+      read:
+        method: getState
+
+  getToolTableRow:
+    type: 'Cybus::Endpoint'
+    properties:
+      protocol: Heidenhain
+      connection: !ref heidenhainConnection
+      topic: getToolTableRow
+      read:
+        method: getToolTableRow
+
+  getPlcData:
+    type: 'Cybus::Endpoint'
+    properties:
+      protocol: Heidenhain
+      connection: !ref heidenhainConnection
+      topic: getPlcData
+      read:
+        method: getPlcData
+        
+  transmitFile:
+    type: 'Cybus::Endpoint'
+    properties:
+      protocol: Heidenhain
+      connection: !ref heidenhainConnection
+      topic: transmitFile
+      read:
+        method: transmitFile
+
+  onToolTableChanged:
+    type: 'Cybus::Endpoint'
+    properties:
+      protocol: Heidenhain
+      connection: !ref heidenhainConnection
+      topic: notify/onToolTableChanged
+      subscribe:
+        type: notify
+        method: onToolTableChanged
+
