@@ -1,5 +1,4 @@
-# Cybus Learn Lesson Example 
+# Connecting a Machine via Heidenhain DNC Interface
 
-This repository contains the example Connectware Commissioning Files for the
-Cybus Learn Article
-[How To Connect Heidenhain DNC](https://learn.cybus.io/how-to-connect-heidenhain-dnc/).
+This repository provides a service commissioning file that serves as an example for the Connectware documentation. For more information, see [Connecting a Machine via Heidenhain DNC Interface
+](https://docs.cybus.io/guides/machine-connectivity/connecting-a-machine-via-heidenhain-dnc-interface).
